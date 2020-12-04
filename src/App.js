@@ -10,20 +10,23 @@ class App extends Component {
       monsters:[],
       searchField:""
     }
+  
   }
   componentDidMount(){
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(response=> response.json())
     .then(users => this.setState({monsters:users}));
   }
-
+  handleChange = event => {
+    this.setState({searchField:event.target.value});
+  }
   render(){
     const {monsters,searchField}=this.state;
     const filteredMonsters = monsters.filter(monsters=>monsters.name.toLowerCase().includes(searchField.toLowerCase()))
   
     return (
     <div className="App">
-     <Search placeholder="search" handler={e=> this.setState({searchField:e.target.value})} />
+     <Search placeholder="search" handler={this.handleChange} />
     <CardList monsters={filteredMonsters}/>
     </div>
   );
